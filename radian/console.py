@@ -1,3 +1,4 @@
+import sys
 import signal
 import re
 from contextlib import contextmanager
@@ -197,13 +198,13 @@ def create_write_console_ex(session, stderr_format):
         def write_console_ex(buf, otype):
             if otype == 0:
                 if not SUPPRESS_STDOUT:
-                    output.write_raw(buf)
-                    output.flush()
+                    sys.stdout.write(buf)
+                    sys.stdout.flush()
                     TERMINAL_CURSOR_AT_BEGINNING[0] = normalize(buf).endswith("\n")
             else:
                 if not SUPPRESS_STDERR:
-                    output.write_raw(stderr_format.format(buf))
-                    output.flush()
+                    sys.stdout.write(stderr_format.format(buf))
+                    sys.stdout.flush()
                     TERMINAL_CURSOR_AT_BEGINNING[0] = normalize(buf).endswith("\n")
 
     return write_console_ex
